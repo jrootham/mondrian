@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<!--  Copyright 2012 Jim Rootham -->
+<!--  Licensed under GPL3.  See mondrian.js and COPYING.txt for more details -->
+  <head>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		<script type="text/javascript" src="lib/jquery-ui-1.8.21.custom.min.js"></script>
+    <script type="text/javascript" src="lib/jscolor/jscolor.js"></script>
+
+    <script type="text/javascript" src="src/mondrian.js"></script>
+    <script type="text/javascript" src="src/mondrianUI.js"></script>
+    <script type="text/javascript" src="src/undoRedo.js"></script>
+    <script type="text/javascript" src="src/undoRedoUI.js"></script>
+    <script type="text/javascript" src="src/scripts.js"></script>
+
+    <link type="text/css" href="css/mondrian.css" rel="stylesheet" />	
+    <link type="text/css" href="css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet" />	
+   
+    <style type="text/css">
+      #myCanvas{border:1px solid red;}
+      #outer{padding:50px;}
+      p{margin:10px;}
+    </style>
+    
+    <script type="text/javascript">
+       $(document).ready(function(){
+          reset();
+          setup($(window).width(), $(window).height());
+          resetUndoRedo($(window).width(), $(window).height());
+          setupUI();
+          setupUndoRedoUI($(window).width(), $(window).height());
+          
+          redraw();
+          root.context = $('#myCanvas')[0].toDataURL();
+          if (window.location.search == '?small=1')
+          {
+            small();
+          }
+          if (window.location.search == '?big=1')
+          {
+            big();
+          }
+       });
+    </script>
+
+  </head>
+  <body>
+  <div id="top">
+    <h1>Mondrian</h1>
+  </div>
+    <div id="toolbar">
+    <button type="button" onClick="doAdd()">Add</button>
+    <button type="button" onClick="undo();redraw();">Undo</button>
+    <button type="button" onClick="doRedo();">Redo</button>
+    <button type="button" onClick="versions()">History window</button>
+    <button type="button" onClick="$('#help').dialog('open')">Help</button>
+    <button type="button" onClick="$('#about').dialog('open')">About</button>
+    <input type="checkbox" id="useClick" /><span class="label">Use click</span>
+  </div>
+  <div id="colourBox">
+    <input id="picker" class="color {pickerOnfocus:false}" />
+  </div>
+  <div id="help">
+    <ul>
+      <li>Add adds a black square.  </li>
+      <li>Delete and Colour actions are done by clicking on a square.  Move and  
+        Resize actions are done by dragging a square. Hover over a square to see 
+        a tooltip describing the action.
+      </li>  
+      <li>Undo undoes an action.</li>
+      <li>Redo redoes an undone action.  If the history is at a branch point, 
+      it gives you options as to which action to redo.</li>
+      <li>History window displays the complete history of the application.</li>
+    </ul>
+  </div>
+<div id="outer">
+    <div>
+      <div id="redoDialog">
+      </div>
+      <div id="versions">
+        <canvas id="versionCanvas" width="1000" height="500"></canvas>
+      </div>
+      <div id="zoom">
+        <canvas id="zoomCanvas" width="500" height="250"></canvas>
+      </div>
+      <div id="select">
+        <div>Context</div>
+        <div>
+          <canvas id="selectCanvas" width="250" height="125"></canvas>
+        </div>
+      </div>
+      <canvas id="myCanvas" width="1000" height="500"></canvas>
+    </div>
+  </div>
+  <div id="about">
+    <p>
+    Mondrian is a test bed for branching undo/redo (or zero effort version 
+     contol).  It places and colours rectangles on a white background, similar
+     to the paintings of Piet Mondrian. 
+    </p> 
+     
+     <p>
+     Copyright 2012 Jim Rootham
+     </p>
+     
+     <p> 
+     This program is free software: you can redistribute it and/or modify
+     it under the terms of the GNU General Public License as published by
+     the Free Software Foundation, either version 3 of the License, or
+     (at your option) any later version.
+      </p>
+      <p>
+     This program is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+     </p>
+     <p>
+     You should have received a copy of the GNU General Public License
+     along with this program (see COPYING.txt).  
+     If not, see <http://www.gnu.org/licenses/>.
+      </p>
+  </div>
+  </body>
+</html>

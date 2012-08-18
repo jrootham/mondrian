@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<!--  Copyright 2012 Jim Rootham -->
+<!--  Licensed under GPL3.  See mondrian.js and COPYING.txt for more details -->
+  <head>
+    <title>Mondrian</title>
+    <style type="text/css">
+      #top{width:700px;}
+      p{margin:10px;}
+    </style>
+  </head>
+  <body>
+  <div id="top">
+    <h1>Mondrian</h1>
+    <p>
+      Mondrian is a test bed/example for branching undo/redo (or zero effort 
+      version control).  It is about the simplest possible application that
+      could demonstrate the utility of better undo/redo.
+    </p>
+    <p>
+      To try it our, first use the add button to create some rectangles, then
+      drag the right quadrants to move (upper left) and resize (lower right) 
+      them and click on the upper right quadrant to change their colout.  If 
+      you create too many you can click on a lower left quadrant to delete them.
+    </p>
+    <p>
+      Start by creating a few coloured blocks.  Then use the undo button to 
+      return to earlier states.  Do that a few times, and then use the undo and 
+      redo buttons to navigate from one state to another.
+    </p>
+    <p>
+      If you click on the history window button you can see the complete history
+      of all the commands you have executed. In the default state if you hover 
+      over a command square (either directly or in the magnify window) you will
+      see the corresponding state in the context window.  If you click on a 
+      command window you will be sent back to the application in the state
+      at that point. 
+    </p>
+    <p>
+      If you are on a tablet device without the ability to hover, click the 
+      "Use click" checkbox.  With that set you must click on a command to see
+      the state and use the "Revert" button on the context window to return to
+      that state.
+    </p>
+    <p>
+      The point of this application is to experiment with different UI features
+      for navigating in an undo/redo tree.  Please feel free to comment at 
+      <a href="mailto:mondrian@tjddev.net">mondrian@tjddev.net</a>.
+    </p>
+    <p>
+      Mondrian is available on github at jrootham/mondrian.
+    </p>
+    
+      <ul>
+        <li>The app <a href="mondrian.html">Mondrian<a></li>
+        <li>The app with some preloaded data <a href="mondrian.html?small=1">Mondrian Small<a> (it takes some time to load)</li>
+        <li>The app with a bigger set of preloaded data <a href="mondrian.html?big=1">Mondrian Big<a> (it takes even longer to load)</li>
+      </ul>
+    </div>
+  </body>
+</html>

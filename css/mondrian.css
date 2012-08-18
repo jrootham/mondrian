@@ -1,0 +1,50 @@
+/*
+ *    Mondrian style sheet
+ *
+ *    Copyright 2012 Jim Rootham -->
+ *    Licensed under GPL3.  See mondrian.js and COPYING.txt for more details -->
+ *
+ */
+ 
+#toolbar
+{
+  padding:            5px 50px 5px 50px; 
+  background-color:   #0000FF;
+}
+
+.label
+{
+  color:              #FFFFFF;
+  text-size:          medium;
+}
+
+#root-block
+{
+  background-color:   #FFFFFF;
+}
+
+#add-block
+{
+  background-color:   #000000;
+}
+
+#delete-block
+{
+  background-color:   #FF0000;
+}
+
+#move-block
+{
+  background-color:   #0000FF;
+}
+
+#resize-block
+{
+  background-color:   #00FFFF;
+}
+
+#colour-block
+{
+  background-color:   #00FF00;
+}
+ 
