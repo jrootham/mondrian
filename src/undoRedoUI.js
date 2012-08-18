@@ -55,12 +55,12 @@ function closeVersions(dialog) {
 
 function setupVersions(width, height) {
   var title = 'Version History - Key: ';
-  title += 'Start <span id="root-block">&nbsp;&nbsp;&nbsp;&nbsp;</span> '; 
-  title += 'Add <span id="add-block">&nbsp;&nbsp;&nbsp;&nbsp;</span> '; 
-  title += 'Delete <span id="delete-block">&nbsp;&nbsp;&nbsp;&nbsp;</span> '; 
-  title += 'Move <span id="move-block">&nbsp;&nbsp;&nbsp;&nbsp;</span> '; 
-  title += 'Resize <span id="resize-block">&nbsp;&nbsp;&nbsp;&nbsp;</span> '; 
-  title += 'Colour <span id="colour-block">&nbsp;&nbsp;&nbsp;&nbsp;</span> '; 
+  title += 'Start=<span id="root-block">&nbsp;&nbsp;&nbsp;&nbsp;</span> | '; 
+  title += 'Add=<span id="add-block">&nbsp;&nbsp;&nbsp;&nbsp;</span> | '; 
+  title += 'Delete=<span id="delete-block">&nbsp;&nbsp;&nbsp;&nbsp;</span> | '; 
+  title += 'Move=<span id="move-block">&nbsp;&nbsp;&nbsp;&nbsp;</span> | '; 
+  title += 'Resize=<span id="resize-block">&nbsp;&nbsp;&nbsp;&nbsp;</span> | '; 
+  title += 'Colour=<span id="colour-block">&nbsp;&nbsp;&nbsp;&nbsp;</span>'; 
 
   var buttons = Array();
   buttons[0] = {id: 'zoomButton', text: 'Magnify', click: function(){zoom();}};
