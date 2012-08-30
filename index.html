@@ -12,13 +12,15 @@
   <body>
   <div id="top">
     <h1>Mondrian</h1>
+    <h3>Introduction</h3>
     <p>
       Mondrian is a test bed/example for branching undo/redo (or zero effort 
       version control).  It is about the simplest possible application that
       could demonstrate the utility of better undo/redo.
     </p>
+    <h3>Trial Instructions</h3>
     <p>
-      To try it our, first use the add button to create some rectangles, then
+      To try it out, first use the add button to create some rectangles, then
       drag the right quadrants to move (upper left) and resize (lower right) 
       them and click on the upper right quadrant to change their colout.  If 
       you create too many you can click on a lower left quadrant to delete them.
@@ -36,12 +38,25 @@
       command window you will be sent back to the application in the state
       at that point. 
     </p>
+    <h3>Device Tailoring</h3>
     <p>
       If you are on a tablet device without the ability to hover, click the 
-      "Use click" checkbox.  With that set you must click on a command to see
+      "No hover" checkbox.  With that set you must click on a command box 
+      in the history window to see
       the state and use the "Revert" button on the context window to return to
       that state.
     </p>
+    <h3>Storage Information</h3>
+    <p>
+      This application uses local storage.  I did this to avoid having to 
+      implement user authentication on the server.  This does mean if you move
+      the code to another location the data will not move with it.
+      I include a simple 
+      local storage manager so the data can be deleted if desired.  
+      I believe it may possible to
+      run without a connection if all the code is cached.
+    </p>
+    <h3>Contact</h3>
     <p>
       The point of this application is to experiment with different UI features
       for navigating in an undo/redo tree.  Please feel free to comment at 

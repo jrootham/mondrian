@@ -62,7 +62,7 @@
     <button id ="exportButton" type="button" onClick="exportPicture()">Export</button>
     <button type="button" onClick="$('#help').dialog('open')">Help</button>
     <button type="button" onClick="$('#about').dialog('open')">About</button>
-    <input type="checkbox" id="useClick" /><span class="label">Use click</span>
+    <input type="checkbox" id="useClick" /><span class="label">No hover/span>
   </div>
   <div id="pictureName"> 
     &nbsp;
@@ -72,15 +72,40 @@
   </div>
   <div id="help">
     <ul>
-      <li>Add adds a black square.  </li>
-      <li>Delete and Colour actions are done by clicking on a square.  Move and  
+      <li>
+        Add adds a black square.  The first add to an blank picture creates 
+        a named picture and adds it to the picture directory.
+      </li>
+      <li>
+        Delete and Colour actions are done by clicking on a square.  Move and  
         Resize actions are done by dragging a square. Hover over a square to see 
         a tooltip describing the action.
       </li>  
       <li>Undo undoes an action.</li>
-      <li>Redo redoes an undone action.  If the history is at a branch point, 
-      it gives you options as to which action to redo.</li>
-      <li>History window displays the complete history of the application.</li>
+      <li>
+        Redo redoes an undone action.  If the history is at a branch point, 
+        it gives you options as to which action to redo.
+      </li>
+      <li>History window displays the complete history of the application.</li>      
+      <li>The New button creates a blank picture.</li>
+      <li>
+        To open a named picture, select the picture from the names dropdown 
+        and press the open button.
+      </li>
+      <li>To rename a picture edit the name textbox and press the Rename button.</li>
+      <li>To delete the picture you have open press the Delete button.</li>
+      <li>
+        To export a picture press the export button.  This will open a new
+        window with a png of the picture in it.  To save the picture right
+        click on that window and save a copy of the picture.  The picture can
+        then be pasted into an image manipulation program.  This manual 
+        intervention is required as a security measure.
+      </li>
+      <li>
+        Check the No hover checkbox if you are using a device that does not
+        implement hover.  It makes the context display happen on click in the 
+        history window and adds a button to the context window to revert.
+      </li>
     </ul>
   </div>
 <div id="outer">
@@ -128,7 +153,7 @@
      <p>
      You should have received a copy of the GNU General Public License
      along with this program (see COPYING.txt).  
-     If not, see <http://www.gnu.org/licenses/>.
+     If not, see <a href="http://www.gnu.org/licenses/">www.gnu.org/licenses</a>.
       </p>
   </div>
   </body>
