@@ -4,18 +4,19 @@
 <!--  Licensed under GPL3.  See mondrian.js and COPYING.txt for more details -->
   <head>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-		<script type="text/javascript" src="lib/jquery-ui-1.8.21.custom.min.js"></script>
+    <script type="text/javascript" src="lib/jquery-ui-1.8.21.custom.min.js"></script>
     <script type="text/javascript" src="lib/jscolor/jscolor.js"></script>
-
+    <script type="text/javascript" src="lib/mh.js"></script>
+    
     <script type="text/javascript" src="src/mondrian.js"></script>
     <script type="text/javascript" src="src/mondrianUI.js"></script>
     <script type="text/javascript" src="src/undoRedo.js"></script>
     <script type="text/javascript" src="src/undoRedoUI.js"></script>
     <script type="text/javascript" src="src/scripts.js"></script>
-
+    
     <link type="text/css" href="css/mondrian.css" rel="stylesheet" />	
     <link type="text/css" href="css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet" />	
-   
+    
     <style type="text/css">
       #myCanvas{border:1px solid red;}
       #outer{padding:50px;}
@@ -23,26 +24,25 @@
     </style>
     
     <script type="text/javascript">
-       $(document).ready(function(){
-          reset();
-          setup($(window).width(), $(window).height());
-          resetUndoRedo($(window).width(), $(window).height());
-          setupUI();
-          setupUndoRedoUI($(window).width(), $(window).height());
-          
-          redraw();
-          root.context = $('#myCanvas')[0].toDataURL();
-          if (window.location.search == '?small=1')
-          {
-            small();
-          }
-          if (window.location.search == '?big=1')
-          {
-            big();
-          }
-       });
+      $(document).ready(function(){
+        reset();
+        setup($(window).width(), $(window).height());
+        setupUI();
+        setupUndoRedoUI($(window).width(), $(window).height());
+        
+        redraw();
+        root.context = $('#myCanvas')[0].toDataURL();
+        disableActions(true);
+        if (window.location.search == '?small=1')
+        {
+          small();
+        }
+        if (window.location.search == '?big=1')
+        {
+          big();
+        }
+      });
     </script>
-
   </head>
   <body>
   <div id="top">
@@ -53,9 +53,19 @@
     <button type="button" onClick="undo();redraw();">Undo</button>
     <button type="button" onClick="doRedo();">Redo</button>
     <button type="button" onClick="versions()">History window</button>
+    <button type="button" onClick="newPic()">New</button>
+    <select id="openList"></select>
+    <button type="button" onClick="openMondrian()">Open</button>
+    <input id="editName" type="text"/>
+    <button id="renameButton" type="button" onClick="renamePicture()">Rename</button>
+    <button id="deleteButton" type="button" onClick="deletePicture()">Delete</button>
+    <button id ="exportButton" type="button" onClick="exportPicture()">Export</button>
     <button type="button" onClick="$('#help').dialog('open')">Help</button>
     <button type="button" onClick="$('#about').dialog('open')">About</button>
     <input type="checkbox" id="useClick" /><span class="label">Use click</span>
+  </div>
+  <div id="pictureName"> 
+    &nbsp;
   </div>
   <div id="colourBox">
     <input id="picker" class="color {pickerOnfocus:false}" />

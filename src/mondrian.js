@@ -40,9 +40,12 @@ var BUFFER = 40;
 var ZOOM_WIDTH = 500;
 var ZOOM_HEIGHT = 250;
 var TREE_WIDTH = 25;
+var NOOP = function(){};
 
 var current = 0;
 var list = Array();
+var pictureIndex = 0;
+var storageCopy;
 
 function setup(width, height) {
   displayWidth = width - 263;
@@ -62,6 +65,12 @@ function times(n, fn) {
   }
 }
 
+function newPic() {
+  reset();
+  displayName('');
+  disableActions(true);
+  redraw();
+}
 //  Command functions
 
 function make(index) {
@@ -101,24 +110,24 @@ function colourCommand(index, arg) {
 
 // Command interfaces - used by GUI and jasmine
 
-function  add() {
-  action(new Add());    
+function  add(id) {
+  action(new Add(id));    
 }
 
-function remove(index) {
-  action(new Remove(index));
+function remove(id, index) {
+  action(new Remove(id, index, list[index]));
 }
 
-function assignMove(index, before, after) {
-  action(new Move(index, before, after));
+function assignMove(id, index, before, after) {
+  action(new Move(id, index, before, after));
 }
 
-function assignResize(index, before, after) {
-  action(new Resize(index, before, after));
+function assignResize(id, index, before, after) {
+  action(new Resize(id, index, before, after));
 }
 
-function assignColour(index, arg) {
-  action(new Colour(index, arg));
+function assignColour(id, index, arg) {
+  action(new Colour(id, index, list[index].c, arg));
 }
 
 // Application functions
@@ -146,7 +155,7 @@ function fill(count) {
   reset();
 
   for (var i = 0 ; i < count ; i++) {
-    doAdd();
+    doAdd(id++);
   }
 }
 

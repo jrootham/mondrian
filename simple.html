@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>Simple Local Storage Manager</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+    <script type="text/javascript">
+    
+      function remove(key) {
+        localStorage.removeItem(key);
+        hide(key);
+      }
+      
+      function hide(key){
+        var row = $('#' + reformat(key));
+        row.remove();
+      }
+      
+      function reformat(key) {
+        return key.replace(/\./g, '_');
+      }
+      
+      function display() {
+        $('#table').empty();
+        $('#table').append('<tr><th>Hide</th><th>Delete</th><th>Key</th><th>Data</th></tr>');
+        for (var i = 0 ; i < localStorage.length ; i++)
+        {
+          var key = localStorage.key(i);
+          var data = localStorage.getItem(key);
+          var label = reformat(key);
+          
+          var hideButton = '<button type="button" onClick="hide(' + "'" + key + "'" +')">Hide</button>';
+          var deleteButton = '<button type="button" onClick="remove(' + "'" + key + "'" +')">Delete</button>';
+
+          var row = '<tr id="' + label + '">';
+          row += '<td>' + hideButton + '</td>';
+          row += '<td>' + deleteButton + '</td>';
+          row += '<td>' + key + '</td>';
+          row += '<td>' + data + '</td></tr>';
+
+          $('#table').append(row);
+        }
+      }                    
+      
+      $(document).ready(function(){
+        display();
+      });
+    </script>
+  </head>
+  <body>
+  <div id="top">
+    <h1>Simple Local Storage Manager</h1>
+    <div>
+      <button type="button" onClick="localStorage.clear();$('#table').empty();">Clear</button>
+      <button type="button" onClick="display()">Display</button>
+    </div>
+    <div>
+      <table id="table">
+        </tr>
+      </table>
+    </div>
+  </div>
+  </body>
+</html>

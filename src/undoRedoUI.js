@@ -48,6 +48,28 @@ function setupUndoRedoUI(width, height) {
   setupSelect();
 }
  
+function StorageCopy() {
+  this.hidden = localStorage;
+  
+  this.setItem = function(key, value) {
+    return this.hidden.setItem(key, value);
+  } 
+
+  this.getItem = function(key) {
+    return this.hidden.getItem(key);
+  } 
+
+  this.removeItem = function(key) {
+    return this.hidden.removeItem(key);
+  } 
+
+  this.getInt = function(key) {
+    return parseInt(this.hidden.getItem(key));
+  } 
+} 
+
+storageCopy = new StorageCopy();
+
 function closeVersions(dialog) {
   $(dialog).off('mousemove.hover');
   closeAll();
@@ -165,16 +187,22 @@ function closeAll() {
 
 function showSelect(element) {  
   var drawContext = getContext('#selectCanvas');
-  var image = new Image();
-  image.onload = function(){    
-    var ratio = 2 / (displayWidth / displayHeight);
-    var localWidth = Math.max(250, 250 / ratio);
-    var localHeight = Math.max(125, 125 * ratio);
-    
-    drawContext.drawImage(image,0,0, localWidth, localHeight);
-  };
-  image.src = element.context;  
   
+  if (element.context) {
+    var image = new Image();
+    image.onload = function(){    
+      var ratio = 2 / (displayWidth / displayHeight);
+      var localWidth = Math.max(250, 250 / ratio);
+      var localHeight = Math.max(125, 125 * ratio);
+      
+      drawContext.drawImage(image,0,0, localWidth, localHeight);
+    };
+    image.src = element.context;  
+  }
+  else {
+    drawContext.fillStyle="#FFFFFF";
+    drawContext.fillRect(0, 0, 250, 125);
+  }  
   $('#select').dialog('option', 'title', element.label());
 }
 
@@ -286,77 +314,6 @@ function unlinkZoom() {
   setVersionsDisable(false);
   zoomNoEvents();
   $("#zoom").off("dialogdrag", dragZoom); 
-}
-
-/**
- *    @param {context2d} context        HTML canvas context for drawing
- *    @param {{num, num}} displacement  display displacement 
- *    @param {num} offset               horizontal positioning for this tree
- *    @param {num} itemHeight           height of an item box                                               
- *    @param {num} separation           separation between items
- *    @param {BaseUndoRedo} tree        tree to draw
- *   
- *    @return (num) columns       number of columns in the tree 
- *    Draw the tree on a canvas
- */
-        
-function drawTree(context, displacement, offset, itemHeight, separation, tree) {
-  var columns = 1;
-
-  context.fillStyle=tree.colour;
-  context.fillRect(offset - displacement.x, 
-    (tree.depth * (itemHeight + separation)) - displacement.y, 
-    TREE_WIDTH, itemHeight);
-
-  if (tree.down != null){
-    columns = drawTree(context, displacement, offset, itemHeight, separation, tree.down);    
-  }
-
-  if (tree.across != null) {
-    context.fillStyle="#606060";
-    context.fillRect(offset + TREE_WIDTH - displacement.x, 
-      (tree.depth * (itemHeight + separation)) - displacement.y, 
-      columns * TREE_WIDTH, 1);
-
-    var delta = offset + (TREE_WIDTH + separation) * columns;
-    columns += drawTree(context, displacement, delta, itemHeight, separation, tree.across);
-  }
-  
-  return columns;
-}
-
-/**
- *    @param {num} column               current column
- *    @param {BaseUndoRedo} tree        tree to search
- *    @param {column: nuum, depth:num} location to find
- *     
- *    @return {found: bool,column: num, element:BaseUndoRedo) result of search, columns, element found 
- */
-        
-function findUndoRedo(column, tree, target) {
-  if (tree.depth == target.depth && column == target.column) {
-    return {found: true, element: tree};
-  }
-  var newColumns = 1;
-
-  if (tree.down != null){
-    result = findUndoRedo(column, tree.down, target); 
-    if (result.found){
-      return result;
-    }
-    else
-    {
-      newColumns = result.columns;
-    }
-  }
-
-  if (tree.across != null) {
-    result = findUndoRedo(column + newColumns, tree.across, target);
-    if (result.found) return result;
-    newColumns += result.columns;
-  }
-  
-  return {found : false, columns: newColumns};
 }
 
 /**

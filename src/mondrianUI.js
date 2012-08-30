@@ -34,7 +34,6 @@
 
 var VERSIONS_HEIGHT = 500;
 var MINIMUM_SIZE = 10;
-var NOOP = function(event){};
 
 function setupDialog(selectDialog, title, options) {
   selectDialog.dialog(jQuery.extend({autoOpen: false, modal: true, title:title}, options));
@@ -51,9 +50,38 @@ function setupUI() {
   $("#myCanvas").mouseleave(function(event){eventLog('leave');mouseAction.done(event)});
   $("#myCanvas").mousedown(function(event){eventLog('down');mouseAction.down(event)});
   $("#myCanvas").mouseup(function(event){eventLog('up');mouseAction.done(event)});
+  makeOpenList();
   setupDialog($("#help"), "Help", {width:500});
   setupDialog($("#about"), "About Mondrian", {width:500});
   setupDialog($("#colourBox"), "Select colour", {height:300, width:300});
+}
+
+function displayName(name) {
+  $('#pictureName').html(mh.paired('h2', name, Array()));
+  $('#editName').val(name);
+}
+
+function makeOpenList() {
+  var index = 1;
+  $('#openList').empty();
+
+  while (storageCopy.getItem('mondrian.' + index + '.exists')) {    
+    if (isPicture(storageCopy, index)) {
+      var name = storageCopy.getItem('mondrian.' + index + '.name');
+      $('#openList').append(mh.paired('option', name, [{name:'value',value:index}]));
+    }
+    index++;
+  }
+}
+
+
+function openMondrian() {
+  reset();
+  var picId = $('#openList').val();
+  pictureImage = picId;
+  load(storageCopy, picId);
+  disableActions(false);
+  redraw();
 }
 
 function ActionBase() {
@@ -190,7 +218,7 @@ function MoveAction(index) {
       finish.x = item.x;
       finish.y = item.y;
   
-      assignMove(index, begin, finish);
+      assignMove(id++, index, begin, finish);
     }  
   }
 
@@ -251,7 +279,7 @@ function ResizeAction(index) {
       finish.w = item.w;
       finish.h = item.h;
   
-      assignResize(index, begin, finish);
+      assignResize(id++, index, begin, finish);
     }  
   }
 
@@ -263,18 +291,18 @@ var mouseAction = new ActionBase();
 // Actions with display
  
 function doAdd() {
-  add();
+  add(id++);
   var context = getContext("#myCanvas");
   draw(context, list[list.length - 1]);
 }
 
 function doRemove(index) {
-  remove(index);
+  remove(id++, index);
   redraw();
 }
 
 function doColour(index, colour) {
-  assignColour(index, colour);
+  assignColour(id++, index, colour);
   redraw();
 }
 
@@ -493,3 +521,57 @@ function tracking(event) {
     displayHover(event, index);
   }
 }  
+
+function exportPicture() {
+  var data = $('#myCanvas')[0].toDataURL();
+  window.open(data, 'Modrian Data');
+}
+
+function renamePicture() {
+    var name = $('#editName').val();
+    storageCopy.setItem('mondrian.' + pictureIndex + '.name', name);
+    displayName(name);
+    makeOpenList();
+}
+
+function deletePicture() {
+
+  for (var index = 0 ; storageCopy.getItem(saveName(pictureIndex, index, 'name')) ; index++) {
+    storageCopy.removeItem(saveName(pictureIndex, index, 'name'));
+    storageCopy.removeItem(saveName(pictureIndex, index, 'up'));
+    storageCopy.removeItem(saveName(pictureIndex, index, 'down'));
+    storageCopy.removeItem(saveName(pictureIndex, index, 'across'));
+    storageCopy.removeItem(saveName(pictureIndex, index, 'depth'));
+    storageCopy.removeItem(saveName(pictureIndex, index, 'context'));
+    storageCopy.removeItem(saveName(pictureIndex, index, 'data.index'));
+    storageCopy.removeItem(saveName(pictureIndex, index, 'data.item.x'));
+    storageCopy.removeItem(saveName(pictureIndex, index, 'data.item.y'));
+    storageCopy.removeItem(saveName(pictureIndex, index, 'data.item.w'));
+    storageCopy.removeItem(saveName(pictureIndex, index, 'data.item.h'));
+    storageCopy.removeItem(saveName(pictureIndex, index, 'data.item.c'));
+    storageCopy.removeItem(saveName(pictureIndex, index, 'data.begin.x'));
+    storageCopy.removeItem(saveName(pictureIndex, index, 'data.begin.y'));
+    storageCopy.removeItem(saveName(pictureIndex, index, 'data.finish.x'));
+    storageCopy.removeItem(saveName(pictureIndex, index, 'data.finish.y'));
+    storageCopy.removeItem(saveName(pictureIndex, index, 'data.begin.w'));
+    storageCopy.removeItem(saveName(pictureIndex, index, 'data.begin.h'));
+    storageCopy.removeItem(saveName(pictureIndex, index, 'data.finish.w'));
+    storageCopy.removeItem(saveName(pictureIndex, index, 'data.finish.h'));
+    storageCopy.removeItem(saveName(pictureIndex, index, 'data.arg'));
+    storageCopy.removeItem(saveName(pictureIndex, index, 'data.c'));
+  }
+
+  storageCopy.removeItem('mondrian.' + pictureIndex + '.name');
+  storageCopy.removeItem('mondrian.' + pictureIndex + '.point.id');
+  storageCopy.setItem('mondrian.' + pictureIndex + '.exists', 'no');
+  
+  newPic();
+  makeOpenList();
+}
+
+function disableActions(state) {
+  $('#renameButton').attr('disabled', state);
+  $('#deleteButton').attr('disabled', state);
+  $('#editName').attr('disabled', state);
+  $('#exportButton').attr('disabled', state);
+}
