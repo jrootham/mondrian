@@ -32,16 +32,6 @@
  *
  */
 
-function big() {
-  var adds = 0;
-  adds = leg(adds, 35, {x:300, y:60}, {w:200,h:60}, '00FFFF', 30);
-  adds = leg(adds, 30, {x:30, y:160}, {w:20,h:60}, 'FFFF00', 20);
-  adds = leg(adds, 40, {x:500, y:70}, {w:200,h:160}, '0000FF', 35);
-  adds = leg(adds, 37, {x:300, y:180}, {w:100,h:100}, '00FF00', 50);
-  adds = leg(adds, 40, {x:500, y:20}, {w:200,h:200}, 'FF0000', 35);
-  adds = leg(adds, 35, {x:500, y:20}, {w:200,h:200}, 'FF00FF', 0);
-}
-
 function small() {
   var adds = 0;
   adds = leg(adds, 15, {x:300, y:60}, {w:200,h:60}, 'FF0000', 12);
@@ -52,16 +42,16 @@ function small() {
 }
 
 function leg(existing, adds, place, size, colour, undoes) {
-  times(adds, add);
+  times(adds, function(){add(id++)});
 
   var index = existing + adds - 1;
   var element = list[index];
 
   var begin ={x:element.x, y:element.y};
-  assignMove(index, begin, place);
+  assignMove(id++, index, begin, place);
 
   begin = {w:element.w, h:element.h};
-  assignResize(index, begin, size);
+  assignResize(id++, index, begin, size);
 
   doColour(index, colour);
   
