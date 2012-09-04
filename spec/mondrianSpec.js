@@ -55,6 +55,10 @@ function displayName(name) {
 
 function redraw() {}
 
+function makeOpenList(){}
+
+function disableActions(){}
+
 /**
  *    local storage stub
  */
