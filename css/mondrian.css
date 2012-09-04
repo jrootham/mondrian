@@ -21,30 +21,36 @@
 #root-block
 {
   background-color:   #FFFFFF;
+  color:              #000000;
 }
 
 #add-block
 {
   background-color:   #000000;
+  color:              #FFFFFF;
 }
 
 #delete-block
 {
   background-color:   #FF0000;
+  color:              #00FFFF;
 }
 
 #move-block
 {
   background-color:   #0000FF;
+  color:              #FFFF00;
 }
 
 #resize-block
 {
   background-color:   #00FFFF;
+  color:              #FF0000;
 }
 
 #colour-block
 {
   background-color:   #00FF00;
+  color:              #FF00FF;
 }
  

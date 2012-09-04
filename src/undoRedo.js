@@ -346,6 +346,8 @@ function Root(idArg) {
   that.name = "Root";
   that.depth = 0;
   that.colour = "#FFFFFF";
+  that.textColour = "#000000";
+  that.text ='Rt';
     
   that.label = function() {
     return this.name + " " + this.id;
@@ -367,6 +369,8 @@ function Add(idArg) {
   
   that.name = "Add";
   that.colour = "#000000";
+  that.textColour = "#FFFFFF";
+  that.text ='A';
 
   that.label = function() {
     var state = make(this.localCurrent);
@@ -392,6 +396,8 @@ function Add(idArg) {
 function Remove(idArg, index, listData) {
   var that = new BaseUndoRedo(idArg);
   that.colour = "#FF0000";
+  that.textColour = "#00FFFF";
+  that.text ='D';
 
   that.name = "Delete";
 
@@ -434,6 +440,8 @@ function Colour(idArg, index, before, arg) {
   
   that.name = "Colour";
   that.colour = "#00FF00";
+  that.textColour = "#FF00FF";
+  that.text ='C';
 
   var data = new Object;
   var local = new Object;
@@ -475,6 +483,8 @@ function Move(idArg, index, begin, finish) {
 
   that.name = "Move";
   that.colour = "#0000FF";
+  that.textColour = "#FFFF00";
+  that.text ='M';
   
   var data = new Object;
   
@@ -518,6 +528,8 @@ function Resize(idArg, index, begin, finish) {
 
   that.name = "Resize";
   that.colour = "#00FFFF";
+  that.textColour = "#FF0000";
+  that.text ='R';
   
   var data = new Object;
   var item = list[index];
@@ -647,10 +659,15 @@ function drawTree(context, displacement, offset, itemHeight, separation, tree) {
   var columns = 1;
 
   context.fillStyle=tree.colour;
-  context.fillRect(offset - displacement.x, 
-    (tree.depth * (itemHeight + separation)) - displacement.y, 
-    TREE_WIDTH, itemHeight);
+  var x = offset - displacement.x;
+  var y = (tree.depth * (itemHeight + separation)) - displacement.y;
+  context.fillRect(x, y, TREE_WIDTH, itemHeight);
 
+  if (itemHeight == SMALLEST) {
+    context.font="20px Arial";
+    context.fillStyle = tree.textColour;
+    context.fillText(tree.text, x + 3, y + 25);
+  }
   if (tree.down != null){
     columns = drawTree(context, displacement, offset, itemHeight, separation, tree.down);    
   }

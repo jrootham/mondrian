@@ -39,7 +39,7 @@ var VERSION_HEIGHT = 500;
 var BUFFER = 40;
 var ZOOM_WIDTH = 500;
 var ZOOM_HEIGHT = 250;
-var TREE_WIDTH = 25;
+var TREE_WIDTH = 30;
 var NOOP = function(){};
 
 var current = 0;
